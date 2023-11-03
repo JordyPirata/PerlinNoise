@@ -2,4 +2,6 @@
 C# 2D Seeded perlin Noise
 
 References
-https://mrl.cs.nyu.edu/~perlin/noise/
+
+PERLIN , K.,Improved Noise reference implementation.
+from https://mrl.cs.nyu.edu/~perlin/noise/
