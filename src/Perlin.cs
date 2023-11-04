@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace PerlinNoise;
 
 public class Perlin
 {
-    public double OctavePerlin(double x, double y, int octaves, double persistence, double lacunarity)
+	public double OctavePerlin(double x, double y, int octaves, double persistence, double lacunarity)
 	{
 
 		double total = 0;
@@ -30,31 +25,58 @@ public class Perlin
 		this.seed = seed;
 	}
 	//Generate a new permutation vector based on the value of seed
-	public byte[] Permutation()
+	public int[] Permutation()
 	{
-		for (byte i = 0; i <= 255; i++)
+		for (int i = 0; i <= 255; i++)
 		{
 			p[i] = i;
 		}
 		Random random = new(seed);
 		// Fisher-Yates shuffle algorithm
 		for (int i = p.Length - 1; i > 0; i--)
-        {
-            int j = random.Next(0, i + 1);
-            // Swap p[i] and p[j]
-            (p[j], p[i]) = (p[i], p[j]);
-        }
-        return p;
+		{
+			int j = random.Next(0, i + 1);
+			// Swap p[i] and p[j]
+			(p[j], p[i]) = (p[i], p[j]);
+		}
+		return p;
 	}
-	private readonly byte[] p;
-
-    public Perlin()
+	private readonly int[] p = new int[512];
+	// Constructor
+	public Perlin()
 	{
-		p = Permutation();
+		for (int i = 0; i < 256; i++)
+		{
+			p[256 + i] = p[i] = Permutation()[i];
+		}
 	}
-
+	// Calculate Perlin noise value for coordinates x, y
 	public double CalculatePerlin(double x, double y)
 	{
-		throw new NotImplementedException();
+		int X = (int)Math.Floor(x) & 255,
+			Y = (int)Math.Floor(y) & 255;
+
+		x -= Math.Floor(x);
+		y -= Math.Floor(y);
+
+		double u = Fade(x),
+			   v = Fade(y);
+
+		int A = p[X] + Y, AA = p[A], AB = p[A + 1],
+			B = p[X + 1] + Y, BA = p[B], BB = p[B + 1];
+
+		return Lerp(v,
+				Lerp(u, Grad(p[AA], x, y), Grad(p[BA], x - 1, y)),
+				Lerp(u, Grad(p[AB], x, y - 1), Grad(p[BB], x - 1, y - 1)));
+	}
+
+	private static double Fade(double t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+	private static double Lerp(double t, double a, double b) { return a + t * (b - a); }
+	private static double Grad(int hash, double x, double y)
+	{
+		int h = hash & 15;									// CONVERT LO 4 BITS OF HASH CODE
+		double u = h < 8 ? x : y,							// into 12 gradient directions
+			   v = h < 4 ? y : h == 12 || h == 14 ? x : y;
+		return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
 	}
 }
