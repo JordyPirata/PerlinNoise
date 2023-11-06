@@ -1,6 +1,6 @@
 using PerlinNoise;
 
-public class PerlinTests
+public class PerlinTests 
 {
     [Fact]
     public void Permutation_ShouldReturnByteArrayWithLength512()

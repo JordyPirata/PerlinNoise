@@ -2,6 +2,7 @@ namespace PerlinNoise;
 
 public class Perlin
 {
+	// Generate Octave Perlin noise value for coordinates x, y
 	public double OctavePerlin(double x, double y, int octaves, double persistence, double lacunarity)
 	{
 
@@ -53,7 +54,7 @@ public class Perlin
 	// Calculate Perlin noise value for coordinates x, y
 	public double CalculatePerlin(double x, double y)
 	{
-		int X = (int)Math.Floor(x) & 255,
+		int X = (int)Math.Floor(x) & 255, 
 			Y = (int)Math.Floor(y) & 255;
 
 		x -= Math.Floor(x);
@@ -63,15 +64,15 @@ public class Perlin
 			   v = Fade(y);
 
 		int A = p[X] + Y, AA = p[A], AB = p[A + 1],
-			B = p[X + 1] + Y, BA = p[B], BB = p[B + 1];
+			B = p[X + 1] + Y, BA = p[B], BB = p[B + 1];   
 
 		return Lerp(v,
 				Lerp(u, Grad(p[AA], x, y), Grad(p[BA], x - 1, y)),
 				Lerp(u, Grad(p[AB], x, y - 1), Grad(p[BB], x - 1, y - 1)));
 	}
 
-	private static double Fade(double t) { return t * t * t * (t * (t * 6 - 15) + 10); }
-	private static double Lerp(double t, double a, double b) { return a + t * (b - a); }
+	private static double Fade(double t) { return t * t * t * (t * (t * 6 - 15) + 10); } // 6t^5 - 15t^4 + 10t^3 (smooth interpolation curve)
+	private static double Lerp(double t, double a, double b) { return a + t * (b - a); } // linear interpolation
 	private static double Grad(int hash, double x, double y)
 	{
 		int h = hash & 15;									// CONVERT LO 4 BITS OF HASH CODE
