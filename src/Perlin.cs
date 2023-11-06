@@ -16,7 +16,7 @@ public class Perlin
 			amplitude *= persistence;
 			frequency *= lacunarity;
 		}
-
+	
 		return total;
 	}
 	// set a seed value for the permutation vector
@@ -24,6 +24,11 @@ public class Perlin
 	public void SetSeed(int seed)
 	{
 		this.seed = seed;
+		
+		for (int i = 0; i < 256; i++)
+		{
+			p[256 + i] = p[i] = Permutation()[i];
+		}
 	}
 	//Generate a new permutation vector based on the value of seed
 	public int[] Permutation()
@@ -42,15 +47,12 @@ public class Perlin
 		}
 		return p;
 	}
-	private readonly int[] p = new int[512];
 	// Constructor
 	public Perlin()
 	{
-		for (int i = 0; i < 256; i++)
-		{
-			p[256 + i] = p[i] = Permutation()[i];
-		}
+		SetSeed(0);
 	}
+	private readonly int[] p = new int[512];
 	// Calculate Perlin noise value for coordinates x, y
 	public double CalculatePerlin(double x, double y)
 	{
@@ -65,7 +67,7 @@ public class Perlin
 
 		int A = p[X] + Y, AA = p[A], AB = p[A + 1],
 			B = p[X + 1] + Y, BA = p[B], BB = p[B + 1];   
-
+		
 		return Lerp(v,
 				Lerp(u, Grad(p[AA], x, y), Grad(p[BA], x - 1, y)),
 				Lerp(u, Grad(p[AB], x, y - 1), Grad(p[BB], x - 1, y - 1)));

@@ -8,25 +8,51 @@ public class ImageGenerator
     public static double[][] GerneateRandomNoise()
     {
         
-        double [][] noise = new double[512][];
+        double [][] noise;
 
-        noise = RandomNoise.Generate(512, 512, 0);
+        noise = RandomNoise.Generate(1000, 1000, 0);
         return noise;
     }
     public static double[][] GeneratePerlinNoise()
     {
         Perlin perlin = new();
         perlin.SetSeed(0);
+        int size = 1000;
 
-        double [][] noise = new double[512][];
+        double [][] noise = new double[size][];
+        
+        double scale = 0.07;
+        for (int i = 0; i < size; i++)
+        {
+            noise[i] = new double[size];
+            for (int j = 0; j < size; j++)
+            {
+                noise[i][j] = perlin.CalculatePerlin(i * scale, j * scale);
+
+                // Normalize noise value to [-1, 1]
+                noise[i][j] /= 1.5;
+            }
+        }
+        
+        return noise;
+    }
+    private static double[][] GenerateFractalNoise()
+    {
+        Perlin perlin = new();
+        perlin.SetSeed(1);
+        int size = 1000;
+
+        double [][] noise = new double[size][];
         
         double scale = 0.007;
-        for (int i = 0; i < 512; i++)
+        for (int i = 0; i < size; i++)
         {
-            noise[i] = new double[512];
-            for (int j = 0; j < 512; j++)
+            noise[i] = new double[size];
+            for (int j = 0; j < size; j++)
             {
-                noise[i][j] = perlin.OctavePerlin(i * scale, j * scale, 4, 0.5, 2);
+                noise[i][j] = perlin.OctavePerlin(i * scale, j * scale, 9, 0.5, 2);
+                // Normalize noise value to [-1, 1] 
+                noise[i][j] /= 1.5;
             }
         }
         
@@ -34,12 +60,10 @@ public class ImageGenerator
     }
     public static void GenerateImage(string type)
     {
-        //generate map x and y
-        int width = 512;
-        int height = 512;
+        int size = 1000;
 
         //generate map x and y values
-        double[][] noise = new double[width][];
+        double[][] noise = new double[size][];
         switch (type)
         {
             case "PerlinNoise":
@@ -48,24 +72,27 @@ public class ImageGenerator
             case "RandomNoise":
                 noise = GerneateRandomNoise();
                 break;
+            case "FractalNoise":
+                noise = GenerateFractalNoise();
+                break;
             default:
                 break;
         }
         
         //visualize map on black and white pixels
-        SKBitmap bitmap = new SKBitmap(width, height);
-        SKCanvas canvas = new SKCanvas(bitmap);
-        for (int i = 0; i < width; i++)
+        SKBitmap bitmap = new SKBitmap(size, size);
+        for (int i = 0; i < size; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (int j = 0; j < size; j++)
             {
-                int color = (int)(noise[i][j] * 255);
-                canvas.DrawPoint(i, j, new SKPaint() { Color = new SKColor((byte)color, (byte)color, (byte)color) });
+                int grayValue = (int)(128 + 128 * noise[i][j]);
+                SKColor color = new SKColor((byte)grayValue, (byte)grayValue, (byte)grayValue);
+                bitmap.SetPixel(i, j, color);
             }
         }
         //save image into imgs folder
         FileStream fs = new($"imgs/{type}.png", FileMode.Create);
-        WriteLine(bitmap.Encode(fs, SKEncodedImageFormat.Png, 1000));
+        WriteLine(bitmap.Encode(fs, SKEncodedImageFormat.Png, size));
         fs.Close();
     }
 }
