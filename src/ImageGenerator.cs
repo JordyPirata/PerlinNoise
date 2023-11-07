@@ -30,7 +30,7 @@ public class ImageGenerator
                 noise[i][j] = perlin.CalculatePerlin(i * scale, j * scale);
 
                 // Normalize noise value to [-1, 1]
-                noise[i][j] /= 1.5;
+                noise[i][j] /= 1.15;
             }
         }
         
@@ -52,7 +52,8 @@ public class ImageGenerator
             {
                 noise[i][j] = perlin.OctavePerlin(i * scale, j * scale, 9, 0.5, 2);
                 // Normalize noise value to [-1, 1] 
-                noise[i][j] /= 1.5;
+                noise[i][j] /= 1.15;
+                
             }
         }
         
