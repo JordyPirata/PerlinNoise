@@ -70,7 +70,7 @@ public class Perlin
 		
 		return Lerp(v,											 			
 				Lerp(u, Grad(p[AA], x, y), Grad(p[BA], x - 1, y)),			
-				Lerp(u, Grad(p[AB], x, y - 1), Grad(p[BB], x - 1, y - 1))); 
+				Lerp(u, Grad(p[AB], x, y - 1), Grad(p[BB], x - 1, y - 1))); // Add blended results from 4 corners of the unit square
 	}
 
 	private static double Fade(double t) { return t * t * t * (t * (t * 6 - 15) + 10); } // 6t^5 - 15t^4 + 10t^3 (smooth interpolation curve)
@@ -80,6 +80,6 @@ public class Perlin
 		int h = hash & 15;									// CONVERT LO 4 BITS OF HASH CODE
 		double u = h < 8 ? x : y,							// into 12 gradient directions
 			   v = h < 4 ? y : h == 12 || h == 14 ? x : y;
-		return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v); // Add blended results from 2 corners of the square
+		return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v); 
 	}
 }
