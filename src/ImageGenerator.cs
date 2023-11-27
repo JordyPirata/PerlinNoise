@@ -21,7 +21,7 @@ public class ImageGenerator
 
         double [][] noise = new double[size][];
         
-        double scale = 0.07;
+        double scale = 0.01;
         for (int i = 0; i < size; i++)
         {
             noise[i] = new double[size];
@@ -30,7 +30,7 @@ public class ImageGenerator
                 noise[i][j] = perlin.CalculatePerlin(i * scale, j * scale);
 
                 // Normalize noise value to [-1, 1]
-                noise[i][j] /= 1.15;
+                noise[i][j] /= 1.5;
             }
         }
         
@@ -39,20 +39,20 @@ public class ImageGenerator
     private static double[][] GenerateFractalNoise()
     {
         Perlin perlin = new();
-        perlin.SetSeed(1);
+        perlin.SetSeed(0);
         int size = 1000;
 
         double [][] noise = new double[size][];
         
-        double scale = 0.007;
+        double scale = 0.001;
         for (int i = 0; i < size; i++)
         {
             noise[i] = new double[size];
             for (int j = 0; j < size; j++)
             {
-                noise[i][j] = perlin.OctavePerlin(i * scale, j * scale, 9, 0.5, 2);
+                noise[i][j] = perlin.OctavePerlin(i * scale, j * scale, 8, .5, 1.75);
                 // Normalize noise value to [-1, 1] 
-                noise[i][j] /= 1.15;
+                noise[i][j] /= 1.5;
                 
             }
         }
@@ -81,7 +81,7 @@ public class ImageGenerator
         }
         
         //visualize map on black and white pixels
-        SKBitmap bitmap = new SKBitmap(size, size);
+        SKBitmap bitmap = new(size, size);
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
