@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerlinNoise", "src\PerlinNoise.csproj", "{B6FB11D4-BFB8-4015-B80E-C1A233BF0149}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{60929521-D974-4E87-AD49-9929E07181C7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6FB11D4-BFB8-4015-B80E-C1A233BF0149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6FB11D4-BFB8-4015-B80E-C1A233BF0149}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6FB11D4-BFB8-4015-B80E-C1A233BF0149}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6FB11D4-BFB8-4015-B80E-C1A233BF0149}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60929521-D974-4E87-AD49-9929E07181C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60929521-D974-4E87-AD49-9929E07181C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60929521-D974-4E87-AD49-9929E07181C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60929521-D974-4E87-AD49-9929E07181C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {29001AE3-954C-4EE6-B8EF-71FC4651DBAA}
+	EndGlobalSection
+EndGlobal
