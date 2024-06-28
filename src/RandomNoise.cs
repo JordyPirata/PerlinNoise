@@ -7,16 +7,15 @@ namespace PerlinNoise;
 
 public static class RandomNoise
 {
-    public static double[][] Generate(int width, int y, int seed)
+    public static float[,] Generate(int width, int y, int seed)
     {
-        Random random = new Random(seed);
-        double[][] noise = new double[width][];
+        float[,] noise = new float[width, y];
+        Random random = new(seed);
         for (int i = 0; i < width; i++)
         {
-            noise[i] = new double[y];
             for (int j = 0; j < y; j++)
             {
-                noise[i][j] = random.NextDouble();
+                noise[i, j] = (float)random.NextDouble();
             }
         }
         return noise;

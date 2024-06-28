@@ -5,66 +5,42 @@ namespace PerlinNoise;
 
 public class ImageGenerator
 {
-    public static double[][] GerneateRandomNoise()
+    public static float[,] GerneateRandomNoise()
     {
         
-        double [][] noise;
+        float [,] noise;
 
         noise = RandomNoise.Generate(1000, 1000, 0);
         return noise;
     }
-    public static double[][] GeneratePerlinNoise()
+    public static float[,] GeneratePerlinNoise()
     {
-        Perlin perlin = new();
-        perlin.SetSeed(0);
-        int size = 1000;
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noise.SetFractalType(FastNoiseLite.FractalType.FBm);
+        noise.SetFractalOctaves(6);
+        noise.SetSeed(1337);
 
-        double [][] noise = new double[size][];
-        
-        double scale = 0.01;
-        for (int i = 0; i < size; i++)
+        // Gather noise data
+        float[,] noiseData = new float[1000, 1000];
+
+        for (int x = 0; x < 1000; x++)
         {
-            noise[i] = new double[size];
-            for (int j = 0; j < size; j++)
+            for (int y = 0; y < 1000; y++)
             {
-                noise[i][j] = perlin.CalculatePerlin(i * scale, j * scale);
-
-                // Normalize noise value to [-1, 1]
-                noise[i][j] /= 1.5;
+                noiseData[x, y] = noise.GetNoise(x, y);
             }
         }
-        
-        return noise;
-    }
-    private static double[][] GenerateFractalNoise()
-    {
-        Perlin perlin = new();
-        perlin.SetSeed(0);
-        int size = 1000;
-
-        double [][] noise = new double[size][];
-        
-        double scale = 0.001;
-        for (int i = 0; i < size; i++)
-        {
-            noise[i] = new double[size];
-            for (int j = 0; j < size; j++)
-            {
-                noise[i][j] = perlin.OctavePerlin(i * scale, j * scale, 8, .5, 1.75);
-                // Normalize noise value to [-1, 1] 
-                noise[i][j] /= 1.5;
                 
-            }
-        }
-        
-        return noise;
+        return noiseData;
     }
+    
     public static void GenerateImage(string type)
     {
         int size = 1000;
 
         //generate map x and y values
-        double[][] noise = new double[size][];
+        float[,] noise = new float[size,size];
         switch (type)
         {
             case "PerlinNoise":
@@ -72,9 +48,6 @@ public class ImageGenerator
                 break;
             case "RandomNoise":
                 noise = GerneateRandomNoise();
-                break;
-            case "FractalNoise":
-                noise = GenerateFractalNoise();
                 break;
             default:
                 break;
@@ -86,8 +59,8 @@ public class ImageGenerator
         {
             for (int j = 0; j < size; j++)
             {
-                int grayValue = (int)(128 + 128 * noise[i][j]);
-                SKColor color = new SKColor((byte)grayValue, (byte)grayValue, (byte)grayValue);
+                int grayValue = (int)(128 + 128 * noise[i,j]);
+                SKColor color = new((byte)grayValue, (byte)grayValue, (byte)grayValue);
                 bitmap.SetPixel(i, j, color);
             }
         }
