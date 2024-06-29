@@ -5,28 +5,29 @@ namespace PerlinNoise;
 
 public class ImageGenerator
 {
-    public static float[,] GerneateRandomNoise()
+    public static float[,] GerneateRandomNoise(int size, int seed)
     {
         
         float [,] noise;
 
-        noise = RandomNoise.Generate(1000, 1000, 0);
+        noise = RandomNoise.Generate(size, size, seed);
         return noise;
     }
-    public static float[,] GeneratePerlinNoise()
+    public static float[,] GeneratePerlinNoise(int size, int seed)
     {
-        FastNoiseLite noise = new FastNoiseLite();
-        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        FastNoiseLite noise = new();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
         noise.SetFractalType(FastNoiseLite.FractalType.FBm);
         noise.SetFractalOctaves(6);
-        noise.SetSeed(1337);
+        noise.SetFrequency(0.008f);
+        noise.SetSeed(seed);
 
         // Gather noise data
-        float[,] noiseData = new float[1000, 1000];
+        float[,] noiseData = new float[size, size];
 
-        for (int x = 0; x < 1000; x++)
+        for (int x = 0; x < size; x++)
         {
-            for (int y = 0; y < 1000; y++)
+            for (int y = 0; y < size; y++)
             {
                 noiseData[x, y] = noise.GetNoise(x, y);
             }
@@ -44,10 +45,10 @@ public class ImageGenerator
         switch (type)
         {
             case "PerlinNoise":
-                noise = GeneratePerlinNoise();
+                noise = GeneratePerlinNoise(size, 2);
                 break;
             case "RandomNoise":
-                noise = GerneateRandomNoise();
+                noise = GerneateRandomNoise(size, 2);
                 break;
             default:
                 break;
@@ -59,9 +60,12 @@ public class ImageGenerator
         {
             for (int j = 0; j < size; j++)
             {
-                int grayValue = (int)(128 + 128 * noise[i,j]);
-                SKColor color = new((byte)grayValue, (byte)grayValue, (byte)grayValue);
+                byte redValue = (byte)(210 + 128 * noise[i, j]);
+                byte greenValue = (byte)(128 + 128 * noise[i, j]);
+                byte blueValue = (byte)(128 + 128 * noise[i, j]);
+                SKColor color = new(redValue, 240, 240, 250);
                 bitmap.SetPixel(i, j, color);
+
             }
         }
         //save image into imgs folder

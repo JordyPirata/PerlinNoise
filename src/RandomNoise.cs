@@ -15,7 +15,8 @@ public static class RandomNoise
         {
             for (int j = 0; j < y; j++)
             {
-                noise[i, j] = (float)random.NextDouble();
+                // gerenate random number between -1 and 1
+                noise[i, j] = (float)random.NextDouble() * 2 - 1;
             }
         }
         return noise;
