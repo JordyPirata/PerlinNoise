@@ -1,5 +1,6 @@
 using static System.Console;
 using SkiaSharp;
+using Biomes;
 
 namespace PerlinNoise;
 
@@ -7,8 +8,9 @@ public class ImageGenerator
 {
     private const string 
         perlinNoise = "PerlinNoise", randomNoise = "RandomNoise", 
-        fractalNoise = "FractalNoise", worleyNoise = "WorleyNoise";
-    public static string[] Types { get; } = [perlinNoise, randomNoise, fractalNoise, worleyNoise];
+        fractalNoise = "FractalNoise", worleyNoise = "WorleyNoise",
+        biomeNoise = "BiomeNoise";
+    public static string[] Types { get; } = [perlinNoise, randomNoise, fractalNoise, worleyNoise, biomeNoise];
     public static void GenerateImage(string type)
     {
         int size = 1000;
@@ -31,9 +33,11 @@ public class ImageGenerator
                 FastNoiseLite fractalState = new();
                 fractalState.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
                 fractalState.SetSeed(1);
-                fractalState.SetFractalType(FastNoiseLite.FractalType.FBm);
-                fractalState.SetFractalOctaves(3);
+                fractalState.SetFractalType(FastNoiseLite.FractalType.None);
+                fractalState.SetFractalOctaves(6);
                 fractalState.SetFrequency(0.01f);
+                fractalState.SetFractalLacunarity(1.5f);
+                fractalState.SetFractalGain(0.5f);
                 noise = GenerateFastNoiseLite(fractalState, size);
                 break;
             case worleyNoise:
@@ -43,10 +47,12 @@ public class ImageGenerator
                 worleyState.SetCellularReturnType(FastNoiseLite.CellularReturnType.Distance2);
                 noise = GenerateFastNoiseLite(worleyState, size);
                 break;
+            case biomeNoise:
+                noise = BiomeGen.GenerateBiomeMap(size, 2);
+                break;
             default:
                 break;
         }
-        
         //visualize map on black and white pixels
         SKBitmap bitmap = new(size, size);
         for (int i = 0; i < size; i++)

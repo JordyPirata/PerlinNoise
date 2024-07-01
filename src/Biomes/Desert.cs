@@ -1,14 +1,6 @@
 namespace Biomes;
 
-public class Desert : IBiome
+public class Desert : Biome
 {
-    public float2 GetHumidityRange()
-    {
-        throw new NotImplementedException();
-    }
-
-    public float2 GetTemperatureRange()
-    {
-        throw new NotImplementedException();
-    }
+    
 }

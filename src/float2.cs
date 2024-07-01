@@ -8,4 +8,9 @@ public struct float2
         x = f.x;
         y = f.y;
     }
+    public float2(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 }
