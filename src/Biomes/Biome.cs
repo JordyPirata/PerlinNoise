@@ -10,6 +10,7 @@ public abstract class Biome
 }
 public class Tundra : Biome {}
 public class Taiga : Biome {}
+public class Forest : Biome {}
 public class Savanna : Biome {}
 public class Jungle : Biome {}
 public class Desert : Biome {}

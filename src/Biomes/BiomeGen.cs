@@ -3,23 +3,23 @@ namespace Biomes;
 
 public class BiomeGen
 {
-    public static SKBitmap GenerateBiomeMap(int size, int seed)
+    public static SKBitmap GenerateBiomeImage(int size, int seed)
     {
-        FastNoiseLite noise = new FastNoiseLite(seed - 1);
-        noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+        FastNoiseLite noise = new(seed - 1);
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2S);
         noise.SetFractalType(FastNoiseLite.FractalType.FBm);
-        noise.SetFractalOctaves(3);
+        noise.SetFractalOctaves(6);
         noise.SetFrequency(0.01f);
 
         float[,] humidityMap = Util.GenerateFastNoiseLite(noise, size);
 
-        FastNoiseLite noise2 = new FastNoiseLite(seed + 1);
+        FastNoiseLite noise2 = new(seed + 1);
         noise2.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
-        noise.SetFractalType(FastNoiseLite.FractalType.FBm);
-        noise.SetFractalOctaves(3);
-        noise2.SetFrequency(0.02f);
+        noise2.SetFractalType(FastNoiseLite.FractalType.FBm);
+        noise2.SetFractalOctaves(6);
+        noise2.SetFrequency(0.01f);
 
-        float[,] temperatureMap = Util.GenerateFastNoiseLite(noise2, size);
+        float[,] temperatureMap = Util.GenerateTemperatureMap(noise2, size);
         SKBitmap bitmap = new(size, size);
 
         for (int i = 0; i < size; i++)

@@ -14,24 +14,30 @@ public class BiomesDic
             [typeof(Tundra)] = new Tundra()
             {
                 humidityRange = new float2(0, 1),
-                temperatureRange = new float2(0.0f, 0.2f),
+                temperatureRange = new float2(0.0f, 0.25f),
                 color = new SKColor(212, 219, 206) // #d4dbce light grey
             },
             [typeof(Taiga)] = new Taiga()
             {
-                humidityRange = new float2(0, 0.25f),
-                temperatureRange = new float2(0.2f, 0.4f),
+                humidityRange = new float2(0.25f, 1f),
+                temperatureRange = new float2(0.25f, 0.5f),
                 color = new SKColor(63, 133, 13) // #3f850d dark green
             },
             [typeof(Desert)] = new Desert()
             {
-                humidityRange = new float2(0.0f, 0.1f),
-                temperatureRange = new float2(0.2f, 1),
+                humidityRange = new float2(0.0f, 0.25f),
+                temperatureRange = new float2(0.25f, 1),
                 color = new SKColor(204, 204, 135) // #cccc87 sand
+            },
+            [typeof(Forest)] = new Forest()
+            {
+                humidityRange = new float2(0.25f, 1),
+                temperatureRange = new float2(0.5f, 0.7f),
+                color = new SKColor(34, 139, 34) // #228b22 forest green
             },
             [typeof(Jungle)] = new Jungle()
             {
-                humidityRange = new float2(0.625f, 1f),
+                humidityRange = new float2(0.5f, 1),
                 temperatureRange = new float2(0.7f, 1.0f),
                 color = new SKColor(0, 100, 0) // #006400 dark green
             },

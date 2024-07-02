@@ -21,16 +21,19 @@ public class ImageGenerator
         {
             
             case perlinNoise:
-                FastNoiseLite perlinState = new(); 
+                FastNoiseLite perlinState = new();
+
                 perlinState.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
                 perlinState.SetSeed(1);
-                //noise = Util.GenerateFastNoiseLite(perlinState, size);
+
+                bitmap = GenerateGrayscaleImage(Util.GenerateFastNoiseLite(perlinState, size));
                 break;
             case randomNoise:
-                //noise = RandomNoise.Generate(size, 2);
+                bitmap = GenerateGrayscaleImage(RandomNoise.Generate(size, 2));
                 break;
             case fractalNoise:
                 FastNoiseLite fractalState = new();
+
                 fractalState.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
                 fractalState.SetSeed(1);
                 fractalState.SetFractalType(FastNoiseLite.FractalType.FBm);
@@ -38,23 +41,33 @@ public class ImageGenerator
                 fractalState.SetFrequency(0.01f);
                 fractalState.SetFractalLacunarity(1.5f);
                 fractalState.SetFractalGain(0.5f);
-                //noise = Util.GenerateFastNoiseLite(fractalState, size);
+
+                bitmap = GenerateGrayscaleImage(Util.GenerateFastNoiseLite(fractalState, size));
                 break;
             case worleyNoise:
                 FastNoiseLite worleyState = new();
+
                 worleyState.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
                 worleyState.SetCellularDistanceFunction(FastNoiseLite.CellularDistanceFunction.Euclidean);
                 worleyState.SetCellularReturnType(FastNoiseLite.CellularReturnType.Distance2);
-                //noise = Util.GenerateFastNoiseLite(worleyState, size);
+
+                bitmap = GenerateGrayscaleImage(Util.GenerateFastNoiseLite(worleyState, size));
                 break;
             case biomeNoise:
-                bitmap = BiomeGen.GenerateBiomeMap(size, 2);
+                bitmap = BiomeGen.GenerateBiomeImage(size, 234324);
                 break;
             default:
                 break;
         }
-        //visualize map on black and white pixels
-        /*
+        //save image into imgs folder
+        FileStream fs = new($"imgs/{type}.png", FileMode.Create);
+        WriteLine(bitmap.Encode(fs, SKEncodedImageFormat.Png, size));
+        fs.Close();
+    }
+    private static SKBitmap GenerateGrayscaleImage(float[,] noise)
+    {
+        int size = noise.GetLength(0);
+        SKBitmap bitmap = new(size, size);
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
@@ -65,12 +78,8 @@ public class ImageGenerator
                     blueValue = saturateValue;
                 SKColor color = new(redValue, greenValue, blueValue);
                 bitmap.SetPixel(i, j, color);
-
             }
-        }*/
-        //save image into imgs folder
-        FileStream fs = new($"imgs/{type}.png", FileMode.Create);
-        WriteLine(bitmap.Encode(fs, SKEncodedImageFormat.Png, size));
-        fs.Close();
+        }
+        return bitmap;
     }
 }
