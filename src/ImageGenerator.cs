@@ -72,7 +72,7 @@ public class ImageGenerator
         {
             for (int j = 0; j < size; j++)
             {
-                byte saturateValue = (byte)(128 + 128 * noise[i, j]),
+                byte saturateValue = (byte)(256 * noise[i, j]),
                     redValue = saturateValue,
                     greenValue = saturateValue,
                     blueValue = saturateValue;

@@ -9,7 +9,7 @@ public class Util
         {
             for (int j = 0; j < size; j++)
             {
-                noiseData[i, j] = noise.GetNoise(i, j);
+                noiseData[i, j] = noise.GetNoise(i, j) * 0.5f + 0.5f;
             }
         }
         return noiseData;
