@@ -41,16 +41,18 @@ The `PerlinTest` class contains unit tests for the Perlin noise generation funct
 Here are some examples of the generated noise images:
 
 #### Perlin Noise
-![Perlin Noise](imgs/perlin_noise.png)
+![Perlin Noise](src/imgs/PerlinNoise.png)
 
 #### Random Noise
-![Random Noise](imgs/random_noise.png)
+![Random Noise](src/imgs/RandomNoise.png)
 
 #### Fractal Noise
-![Fractal Noise](imgs/fractal_noise.png)
+![Fractal Noise](src/imgs/FractalNoise.png)
 
 #### Worley Noise
-![Worley Noise](imgs/worley_noise.png)
+![Worley Noise](src/imgs/WorleyNoise.png)
 
 #### Biome Noise
-![Biome Noise](imgs/biome_noise.png)
+![Biome Noise](src/imgs/BiomeNoise.png)
+
+For more information check: https://github.com/Auburn/FastNoiseLite
